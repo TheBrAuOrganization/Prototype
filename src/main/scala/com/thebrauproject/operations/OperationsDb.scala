@@ -9,6 +9,7 @@ object OperationsDb {
   case object Disconnected extends State
 
   sealed trait DBOperations
+  sealed trait DBCreatureOperation
 
   object DBOperations {
     case object Create extends DBOperations
@@ -16,6 +17,12 @@ object OperationsDb {
     case object Read extends DBOperations
     case object Delete extends DBOperations
   }
+
+
+    case class CreateCreature[T <: Creature](creature: T) extends DBCreatureOperation
+    case class UpdateCreature[T <: Creature](creature: T) extends DBCreatureOperation
+    case class ReadCreature[T <: Creature](creature: T) extends DBCreatureOperation
+    case class DeleteCreature[T <: Creature](creature: T) extends DBCreatureOperation
 
   case object Connect
   case object Disconnect

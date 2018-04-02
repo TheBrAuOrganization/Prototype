@@ -26,7 +26,7 @@ class HeroProducer(props: Properties) extends Actor with ActorLogging {
     case c: CreatureKafkaPackage[Hero] =>
       implicit val formats = DefaultFormats
       val producer = new KafkaProducer[String, String](props)
-      log.info(s"Hero: ${c.creature.name} is going to be send to Kafka")
+      log.info(s"Hero: ${c.creature.name} with id: ${c.creatureId} is going to be send to Kafka")
       producer.send(new ProducerRecord[String, String]("hero", c.creatureId, write(c.creature)))
   }
 

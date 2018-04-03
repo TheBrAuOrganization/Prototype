@@ -3,9 +3,8 @@ package com.thebrauproject.modification
 import akka.actor.{Actor, ActorLogging, Stash}
 import com.redis.RedisClient
 import com.thebrauproject.operations.OperationsDb._
-import com.thebrauproject
 
-class DatabaseHeroModification extends Actor with Stash with ActorLogging{
+class RedisDbActor extends Actor with Stash with ActorLogging{
 
   val connString = "localhost"
   val connPort = 6379

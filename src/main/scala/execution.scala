@@ -1,8 +1,7 @@
 import akka.actor.{ActorSystem, Props}
-import com.thebrauproject.creation.{DatabaseActor, DatabaseRouter}
+import com.thebrauproject.creation.DatabaseRouter
 import com.thebrauproject.elements.{Hero, Role, Skill}
-import com.thebrauproject.operations.OperationsDb.DBOperations.Create
-import com.thebrauproject.operations.OperationsDb.{Connect, CreateCreature, Disconnect, OperationCreature}
+import com.thebrauproject.operations.OperationsDb.CreateCreature
 import com.thebrauproject.kafka.HeroConsumer
 import com.thebrauproject.operations.OperationsKafka.StartConsumer
 
@@ -13,7 +12,7 @@ object execution extends App {
   val system = ActorSystem("TheProduct")
 
   val creationDb = system.actorOf(Props[DatabaseRouter], "dbCreator")
-  val kafkaConsumer = system.actorOf(Props[HeroConsumer], "kafkaHeroConsumer")
+  //val kafkaConsumer = system.actorOf(Props[HeroConsumer], "kafkaHeroConsumer")
 
   val pythonSkill = Skill("1234", "python")
   val javascriptSkill = Skill("321", "javascript")
@@ -21,7 +20,7 @@ object execution extends App {
   val role = Role("4545", "full stacker developer", "Faz a porra toda", skills)
   val hero = Hero(Random.nextInt(99999).toString, "Eta Danado", skills, role)
 
-  kafkaConsumer ! StartConsumer
+  //kafkaConsumer ! StartConsumer
 
   Thread.sleep(1000)
 

@@ -3,18 +3,18 @@ package com.thebrauproject.kafka
 import java.util.Properties
 
 import akka.actor.{Actor, ActorSystem, Props}
-import com.thebrauproject.modification.DatabaseHeroModification
+import com.thebrauproject.modification.RedisDbActor
 import com.thebrauproject.operations.OperationsDb.{Connect, RedisObject}
 import com.thebrauproject.operations.OperationsKafka.StartConsumer
 import org.apache.kafka.common.serialization.Serdes
 import org.apache.kafka.streams.{KafkaStreams, StreamsBuilder, StreamsConfig}
-import org.apache.kafka.streams.kstream.{KStream, KStreamBuilder}
+import org.apache.kafka.streams.kstream.KStream
 
 
 class HeroConsumer extends Actor {
   val system = ActorSystem("HeroConsumer")
 
-  val redisDB = system.actorOf(Props[DatabaseHeroModification], "dbCreator")
+  val redisDB = system.actorOf(Props[RedisDbActor], "dbCreator")
 
   val builder = new StreamsBuilder()
 

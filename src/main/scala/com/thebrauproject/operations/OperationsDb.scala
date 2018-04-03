@@ -10,6 +10,8 @@ object OperationsDb {
 
   sealed trait DBOperations
   sealed trait DBCreatureOperation
+  sealed trait DBAttributeOperation
+  sealed trait DBObjectiveOperation
 
   object DBOperations {
     case object Create extends DBOperations
@@ -19,15 +21,15 @@ object OperationsDb {
   }
 
 
-    case class CreateCreature[T <: Creature](creature: T) extends DBCreatureOperation
-    case class UpdateCreature[T <: Creature](creature: T) extends DBCreatureOperation
-    case class ReadCreature[T <: Creature](creature: T) extends DBCreatureOperation
-    case class DeleteCreature[T <: Creature](creature: T) extends DBCreatureOperation
+  case class CreateCreature[+T <: Creature](creature: T) extends DBCreatureOperation
+  case class UpdateCreature[+T <: Creature](creature: T) extends DBCreatureOperation
+  case class ReadCreature[+T <: Creature](creature: T) extends DBCreatureOperation
+  case class DeleteCreature[+T <: Creature](creature: T) extends DBCreatureOperation
 
   case object Connect
   case object Disconnect
 
-  case class OperationCreature[T](dBOperations: DBOperations, creature: Option[T])
+  //case class OperationCreature[T](dBOperations: DBOperations, creature: Option[T])
   case class OperationAttributes(dBOperations: DBOperations, attributes: Option[Attribute])
 
   sealed trait RedisOperation

@@ -12,7 +12,7 @@ object execution extends App {
   val system = ActorSystem("TheProduct")
 
   val creationDb = system.actorOf(Props[DatabaseRouter], "dbCreator")
-  //val kafkaConsumer = system.actorOf(Props[HeroConsumer], "kafkaHeroConsumer")
+  val kafkaConsumer = system.actorOf(Props[HeroConsumer], "kafkaHeroConsumer")
 
   val pythonSkill = Skill("1234", "python")
   val javascriptSkill = Skill("321", "javascript")
@@ -20,7 +20,7 @@ object execution extends App {
   val role = Role("4545", "full stacker developer", "Faz a porra toda", skills)
   val hero = Hero(Random.nextInt(99999).toString, "Eta Danado", skills, role)
 
-  //kafkaConsumer ! StartConsumer
+  kafkaConsumer ! StartConsumer
 
   Thread.sleep(1000)
 

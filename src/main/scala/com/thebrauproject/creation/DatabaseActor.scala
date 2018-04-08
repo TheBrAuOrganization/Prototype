@@ -1,6 +1,6 @@
 package com.thebrauproject.creation
 
-import akka.actor.{Actor, ActorLogging, Stash}
+import akka.actor.{Actor, ActorLogging, ActorRef, PoisonPill, Stash}
 import java.sql.{Connection, DriverManager, ResultSet, Statement}
 import java.time.Instant
 
@@ -14,6 +14,7 @@ class DatabaseActor extends Actor with Stash with ActorLogging {
   val connString = "jdbc:postgresql://localhost:5432/postgres?user=postgres&password=mysecretpassword"
   var conn: Connection = _
   var stm: Statement = _
+  var producer: ActorRef = _
 
   override def receive: Receive = disconnected
 
@@ -23,6 +24,8 @@ class DatabaseActor extends Actor with Stash with ActorLogging {
       conn = DriverManager.getConnection(connString)
       stm = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)
       log.info("Database connected")
+      producer = context.actorOf(HeroProducer.props)
+      log.info("Kafka Producer Actor Created.")
       unstashAll()
       context.become(connected)
     case _ => stash()
@@ -32,12 +35,13 @@ class DatabaseActor extends Actor with Stash with ActorLogging {
     case Disconnect =>
       log.info("Disconnecting from the Database")
       conn.close()
+      log.info("Killing producer actor")
+      producer ! PoisonPill
       context.unbecome()
 
     case c: CreateCreature[Hero] =>
       try {
         stm.executeUpdate(s"INSERT INTO hero VALUES('${c.creature.id}', ${Instant.now.getEpochSecond})")
-        val producer = context.actorOf(HeroProducer.props)
         producer ! CreatureKafkaPackage[Hero](c.creature.id, c.creature)
       } catch {
         case e: ClassCastException =>

@@ -1,17 +1,23 @@
 package com.thebrauproject
 
+import java.sql.Timestamp
+
 package object elements {
 
   trait Creature
 
   trait Attribute
 
-  trait Objective
+  trait Action
 
   case class Hero(id: String,
                   name: String,
+                  createAt: Timestamp,
+                  modifiedAt: Timestamp,
                   skills: Seq[Skill],
-                  role: Role) extends Creature
+                  roleId: String,
+                  deleted: Boolean
+                 ) extends Creature
 
   case class Role(id: String,
                   name: String,
@@ -23,7 +29,7 @@ package object elements {
 
   case class Task(title: String,
                   text: String,
-                  skill: Seq[Skill]) extends Objective
+                  skill: Seq[Skill]) extends Action
 
   case class CreatureKafkaPackage[T](creatureId: String,
                                      creature: T)

@@ -1,4 +1,4 @@
-import akka.actor.{ActorSystem, Props}
+/*import akka.actor.{ActorSystem, Props}
 import com.thebrauproject.creation.DatabaseRouter
 import com.thebrauproject.elements.{Hero, Role, Skill}
 import com.thebrauproject.operations.OperationsDb.CreateCreature
@@ -18,7 +18,7 @@ object execution extends App {
   val javascriptSkill = Skill("321", "javascript")
   val skills = Seq(pythonSkill, javascriptSkill)
   val role = Role("4545", "full stacker developer", "Faz a porra toda", skills)
-  val hero = Hero(Random.nextInt(99999).toString, "Eta Danado", skills, role)
+  val hero = Hero(Random.nextInt(99999).toString, "Eta Danado", skills, role.id)
 
   kafkaConsumer ! StartConsumer
 
@@ -26,4 +26,4 @@ object execution extends App {
 
   creationDb ! CreateCreature[Hero](hero)
 
-}
+}*/

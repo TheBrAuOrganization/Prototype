@@ -5,6 +5,8 @@ version := "1.0"
 scalaVersion := "2.12.4"
 
 libraryDependencies ++= Seq(
+  "com.google.protobuf" % "protobuf-java-util" % "3.5.1",
+  "com.google.protobuf" % "protobuf-java" % "3.5.1",
   "org.postgresql" % "postgresql" % "42.2.2",
   "org.apache.kafka" %% "kafka" % "1.1.0",
   "org.apache.kafka" % "kafka-streams" % "1.1.0",
@@ -16,7 +18,5 @@ libraryDependencies ++= Seq(
   "net.debasishg" %% "redisclient" % "3.5"
 )
 
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % Test
-
-_root_.org.jetbrains.sbt.StructureKeys.sbtStructureOptions in Global := "download resolveClassifiers resolveSbtClassifiers"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % Test
 

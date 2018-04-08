@@ -8,6 +8,7 @@ import akka.actor.ActorSystem
 import akka.testkit.{ImplicitSender, TestKit, TestProbe}
 import com.thebrauproject.elements.{Hero, Skill}
 import com.thebrauproject.testUtils.hero
+import com.thebrauproject.util.Base64SHA256
 import com.thebrauproject.hero.ActorHero.{GenerateId, Modification}
 import org.scalatest.{BeforeAndAfterAll, FlatSpecLike, MustMatchers}
 
@@ -30,7 +31,7 @@ class ActorHeroSpec extends TestKit(ActorSystem("test-actor-hero"))
 
     val state = sender.expectMsgType[String]
 
-    state must equal(hero.id)
+    state must equal(Base64SHA256(hero.name + hero.createAt.toInstant))
   }
 
   it should "update the Modified At field if the Modification Request is called" in {

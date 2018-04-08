@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/TheBrAuOrganization/Prototype.svg?branch=master)](https://travis-ci.org/TheBrAuOrganization/Prototype)
+
 # Prototype of The Product
 
 The prototype is responsible to build and describe the most basic functionality of how The Product will work and with your most basic architecture. 

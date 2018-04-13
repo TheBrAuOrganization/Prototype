@@ -21,6 +21,8 @@ class RedisDbActor extends Actor with Stash with ActorLogging{
     case r: RedisObject =>
       redisConn.set(r.key, r.value)
       log.info("Data was written to Redis db")
+    case s: String =>
+      sender ! redisConn.get(s)
   }
 
   def disconnected: Actor.Receive = {

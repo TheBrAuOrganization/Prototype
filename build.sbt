@@ -14,6 +14,8 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-testkit" % "2.5.11" % Test,
   "com.typesafe.akka" %% "akka-persistence" % "2.5.11",
   "com.typesafe.akka" %% "akka-remote" % "2.5.11",
+  "com.typesafe.akka" %% "akka-http" % "10.1.1",
+  "com.typesafe.akka" %% "akka-stream" % "2.5.11",
   "net.liftweb" %% "lift-json" % "3.2.0",
   "net.debasishg" %% "redisclient" % "3.5"
 )

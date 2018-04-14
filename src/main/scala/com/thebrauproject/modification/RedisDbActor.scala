@@ -30,7 +30,7 @@ class RedisDbActor extends Actor with Stash with ActorLogging{
       log.info("Data was written to Redis db")
     case s: String =>
       try
-        sender ! Some(redisConn.get(s).get.parseJson.convertTo[Hero])
+        sender ! redisConn.get(s).get.parseJson.convertTo[Hero]
       catch {
         case e: Exception =>
           log.error(s"Unable to find $s in Redis")

@@ -38,7 +38,7 @@ class ActorHeroSpec extends TestKit(ActorSystem("test-actor-hero"))
     val sender = TestProbe()
 
     val actorHero = system.actorOf(ActorHero.props)
-    val previous = hero.updated_at
+
     sender.send(actorHero, Modification(hero))
 
     val state = sender.expectMsgType[Hero]

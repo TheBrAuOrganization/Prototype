@@ -1,25 +1,30 @@
 package com.thebrauproject.http
 
-import akka.actor.{Actor, ActorLogging, ActorSystem, Props}
+
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
+import akka.actor.{ActorSystem, Props}
 import akka.pattern.ask
 import akka.stream.ActorMaterializer
-
-import scala.concurrent.Future
-import scala.concurrent.duration._
-import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 import akka.util.Timeout
-import com.thebrauproject.creation.DatabaseRouter
-import spray.json.DefaultJsonProtocol._
 
 import scala.io.StdIn
-import com.thebrauproject.modification.RedisDbActor
-import com.thebrauproject.elements.{Hero, Skill}
-import com.thebrauproject.kafka.HeroConsumer
-import com.thebrauproject.operations.OperationsKafka.StartConsumer
+import scala.concurrent.Future
+import scala.concurrent.duration._
+
+import spray.json.DefaultJsonProtocol._
 import spray.json._
+
+import com.thebrauproject.modification.RedisDbActor
+import com.thebrauproject.creation.DatabaseRouter
+import com.thebrauproject.elements._
+import com.thebrauproject.operations.OperationsDb._
+import com.thebrauproject.kafka.HeroConsumer
+import com.thebrauproject.operations.OperationsDb.Connect
+import com.thebrauproject.operations.OperationsKafka.StartConsumer
+
 
 object HeroServer extends App {
   import com.thebrauproject.elements.implicits._
@@ -34,11 +39,12 @@ object HeroServer extends App {
   val kafkaConsumer = system.actorOf(Props[HeroConsumer], "kafkaHeroConsumer")
 
   kafkaConsumer ! StartConsumer
+  redisActor ! Connect
 
   val route =
     pathPrefix("hero"){
       (post & entity(as[Hero])) { hero =>
-        creationDb ! hero
+        creationDb !  CreateCreature[Hero](hero)
         complete {
           Created -> Map("id" -> hero.hero_id).toJson
         }

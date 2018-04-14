@@ -22,6 +22,7 @@ import com.thebrauproject.operations.OperationsKafka.StartConsumer
 import spray.json._
 
 object HeroServer extends App {
+  import com.thebrauproject.elements.implicits._
 
   implicit val system = ActorSystem()
   implicit val materializer = ActorMaterializer()

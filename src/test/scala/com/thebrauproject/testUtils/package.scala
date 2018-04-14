@@ -1,10 +1,10 @@
 package com.thebrauproject
 
-import java.sql.Timestamp
+
 import java.text.SimpleDateFormat
 
 import com.thebrauproject.elements.{Hero, Skill}
-import com.thebrauproject.util.utc
+import com.thebrauproject.util._
 
 package object testUtils {
   val dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS'Z'")
@@ -12,11 +12,20 @@ package object testUtils {
   val javascriptSkill = Skill("321", "javascript")
   val skills = Seq(pythonSkill, javascriptSkill)
   val NOT_DELETED = false
-  val hero = Hero("pgU0wEI32OXvL3Dy/6Loq211xEPY5l7KSCgVJMDq0KA=",
-                  "John Potato",
-                 "2018-04-08T07:23:27.219Z",
-  "2018-04-08T07:23:27.219Z",
-                  skills,
-                  "cAUvzWwgfa+CRtGLocgxeujnCdRn/bf3mEshVP5tSh0",
-                  NOT_DELETED)
+  val hero = Hero("123456789",
+    "André Nicolas Petridis de Oiiveira",
+    "André",
+    "André",
+    "https://www.google.com.br/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwiQp5uruqHaAhWErFkKHdzrCX0QjRx6BAgAEAU&url=https%3A%2F%2Ftemporarytattoos.com%2Fkevin-minion-temporary-tattoo&psig=AOvVaw1IaexXIUjX9OdNIbMKfFQO&ust=1522960021798530",
+    "andrepetridis@gmail.com",
+    "5511976689677",
+    utc,
+    utc,
+    utc,
+    utc,
+    utc,
+    utc,
+    "male",
+    "Some",
+    "+11:00")
 }

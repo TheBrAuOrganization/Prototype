@@ -2,9 +2,6 @@ package com.thebrauproject
 
 import java.sql.Timestamp
 
-import net.liftweb.json.{DefaultFormats, parse}
-import spray.json.DefaultJsonProtocol._
-
 package object elements {
 
   trait Creature

@@ -40,7 +40,7 @@ object HeroServer extends App {
       (post & entity(as[Hero])) { hero =>
         creationDb ! hero
         complete {
-          Created -> Map("id" -> hero.id).toJson
+          Created -> Map("id" -> hero.hero_id).toJson
         }
       } ~
         (get & path(Segment)) { id =>

@@ -10,7 +10,7 @@ package object elements {
 
   trait Action
 
-  case class Hero(id: String,
+  case class Hero(hero_id: String,
                   name: String,
                   first_name: String,
                   nickname: String,

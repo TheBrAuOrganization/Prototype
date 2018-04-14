@@ -41,8 +41,8 @@ class DatabaseActor extends Actor with Stash with ActorLogging {
 
     case c: CreateCreature[Hero] =>
       try {
-        stm.executeUpdate(s"INSERT INTO hero VALUES('${c.creature.id}', ${Instant.now.getEpochSecond})")
-        producer ! CreatureKafkaPackage[Hero](c.creature.id, c.creature)
+        stm.executeUpdate(s"INSERT INTO hero VALUES('${c.creature.hero_id}', ${Instant.now.getEpochSecond})")
+        producer ! CreatureKafkaPackage[Hero](c.creature.hero_id, c.creature)
       } catch {
         case e: ClassCastException =>
           log.error("The operations is expected with Hero object. Please fix the object to be sent")

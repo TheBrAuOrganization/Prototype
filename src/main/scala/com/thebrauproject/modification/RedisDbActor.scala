@@ -2,7 +2,11 @@ package com.thebrauproject.modification
 
 import akka.actor.{Actor, ActorLogging, Stash}
 import com.redis.RedisClient
+import com.thebrauproject.elements.Hero
 import com.thebrauproject.operations.OperationsDb._
+
+import com.thebrauproject.util._
+
 
 class RedisDbActor extends Actor with Stash with ActorLogging{
 
@@ -22,7 +26,7 @@ class RedisDbActor extends Actor with Stash with ActorLogging{
       redisConn.set(r.key, r.value)
       log.info("Data was written to Redis db")
     case s: String =>
-      sender ! redisConn.get(s)
+      sender ! parseJson[Hero](redisConn.get(s))
   }
 
   def disconnected: Actor.Receive = {

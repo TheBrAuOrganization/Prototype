@@ -14,8 +14,8 @@ package object testUtils {
   val NOT_DELETED = false
   val hero = Hero("pgU0wEI32OXvL3Dy/6Loq211xEPY5l7KSCgVJMDq0KA=",
                   "John Potato",
-                  new Timestamp(dateFormat.parse("2018-04-08T07:23:27.219Z").getTime),
-                  utc,
+                 "2018-04-08T07:23:27.219Z",
+  "2018-04-08T07:23:27.219Z",
                   skills,
                   "cAUvzWwgfa+CRtGLocgxeujnCdRn/bf3mEshVP5tSh0",
                   NOT_DELETED)

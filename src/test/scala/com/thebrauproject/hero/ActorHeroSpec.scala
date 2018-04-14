@@ -27,11 +27,11 @@ class ActorHeroSpec extends TestKit(ActorSystem("test-actor-hero"))
 
     val actorHero = system.actorOf(ActorHero.props)
 
-    sender.send(actorHero, GenerateId(hero.name + hero.createAt.toInstant))
+    sender.send(actorHero, GenerateId(hero.name + hero.createAt))
 
     val state = sender.expectMsgType[String]
 
-    state must equal(Base64SHA256(hero.name + hero.createAt.toInstant))
+    state must equal(Base64SHA256(hero.name + hero.createAt))
   }
 
   it should "update the Modified At field if the Modification Request is called" in {

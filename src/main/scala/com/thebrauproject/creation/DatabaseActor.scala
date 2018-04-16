@@ -39,21 +39,24 @@ class DatabaseActor extends Actor with Stash with ActorLogging {
       producer ! PoisonPill
       context.unbecome()
 
-    case c: CreateCreature[Hero] =>
-      try {
-        stm.executeUpdate(s"INSERT INTO hero VALUES('${c.creature.hero_id}', ${Instant.now.getEpochSecond})")
-        producer ! CreatureKafkaPackage[Hero](c.creature.hero_id, c.creature)
-      } catch {
-        case e: ClassCastException =>
-          log.error("The operations is expected with Hero object. Please fix the object to be sent")
-          e.printStackTrace()
-          log.info("Disconnecting from the Database")
-          conn.close()
-          context.unbecome()
+    case CreateCreature(creature) =>
+      creature match {
+        case c: Hero =>
+          try {
+            stm.executeUpdate(s"INSERT INTO hero VALUES('${c.hero_id}', ${Instant.now.getEpochSecond})")
+            producer ! CreatureKafkaPackage[Hero](c.hero_id, c)
+          } catch {
+            case e: ClassCastException =>
+              log.error("The operations is expected with Hero object. Please fix the object to be sent")
+              e.printStackTrace()
+              log.info("Disconnecting from the Database")
+              conn.close()
+              context.unbecome()
+          }
       }
-      case c: UpdateCreature[Hero] => ???
-      case c: DeleteCreature[Hero] => ???
-      case c: ReadCreature[Hero] => ???
+      case UpdateCreature(creature) => ???
+      case DeleteCreature(creature) => ???
+      case ReadCreature(creature) => ???
     }
 
 }

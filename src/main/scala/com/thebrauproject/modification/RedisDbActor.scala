@@ -2,11 +2,9 @@ package com.thebrauproject.modification
 
 import akka.actor.{Actor, ActorLogging, Stash}
 import com.redis.RedisClient
-import com.thebrauproject.elements.{Hero, Creature}
+import com.thebrauproject.elements.Hero
 import com.thebrauproject.operations.OperationsDb._
 import spray.json._
-
-import com.thebrauproject.util._
 
 
 class RedisDbActor extends Actor with Stash with ActorLogging{

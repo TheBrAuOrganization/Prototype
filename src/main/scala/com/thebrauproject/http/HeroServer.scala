@@ -11,12 +11,10 @@ import akka.stream.ActorMaterializer
 import akka.util.Timeout
 
 import scala.io.StdIn
-import scala.concurrent.Future
+import scala.concurrent.{Await, ExecutionContextExecutor, Future}
 import scala.concurrent.duration._
-
 import spray.json.DefaultJsonProtocol._
 import spray.json._
-
 import com.thebrauproject.modification.RedisDbActor
 import com.thebrauproject.creation.DatabaseRouter
 import com.thebrauproject.elements._
@@ -29,10 +27,9 @@ import com.thebrauproject.operations.OperationsKafka.StartConsumer
 object HeroServer extends App {
   import com.thebrauproject.elements.implicits._
 
-  implicit val system = ActorSystem()
-  implicit val materializer = ActorMaterializer()
-  // needed for the future flatMap/onComplete in the end
-  implicit val executionContext = system.dispatcher
+  implicit val system: ActorSystem = ActorSystem()
+  implicit val materializer: ActorMaterializer = ActorMaterializer()
+  implicit val executionContext: ExecutionContextExecutor = system.dispatcher
 
   val redisActor = system.actorOf(Props[RedisDbActor], "redis")
   val creationDb = system.actorOf(Props[DatabaseRouter], "dbCreator")
@@ -46,14 +43,37 @@ object HeroServer extends App {
       (post & entity(as[Hero])) { hero =>
         creationDb !  CreateCreature[Hero](hero)
         complete {
-          Created -> Map("id" -> hero.hero_id).toJson
+          Created -> Map(
+            "hero_id" -> hero.hero_id,
+            "name" -> hero.name,
+            "created_at" -> hero.created_at,
+            "message" -> "A new hero has born").toJson
         }
       } ~
-        (get & path(Segment)) { id =>
-          implicit val timeout: Timeout = 5.seconds
-          val result: Future[Hero] = (redisActor ? id).mapTo[Hero]
-          complete(result)
+      (get & path(Segment)) { id =>
+        implicit val timeout: Timeout = 5.seconds
+        val result: Future[Hero] = (redisActor ? id).mapTo[Hero]
+        complete(result)
+      } ~
+      (put & entity(as[Hero])) { hero =>
+        creationDb ! UpdateCreature[Hero](hero)
+        complete {
+          Created -> Map(
+            "hero_id" -> hero.hero_id,
+            "message" -> "The hero got his stuffs buffed up").toJson
         }
+      } ~
+      (delete & path(Segment)) { id =>
+        implicit val timeout: Timeout = 5.seconds
+        val result: Future[Hero] = (redisActor ? id).mapTo[Hero]
+        val hero = Await.result(result, 5.seconds)
+        creationDb ! DeleteCreature[Hero](hero)
+        complete({
+          Created -> Map(
+            "hero_id" -> hero.hero_id,
+            "message" -> "The hero found his way to valhalla").toJson
+        })
+      }
     }
 
 

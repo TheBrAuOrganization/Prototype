@@ -46,7 +46,7 @@ object HeroServer extends App {
           Created -> Map(
             "hero_id" -> hero.hero_id,
             "name" -> hero.name,
-            "created_at" -> hero.created_at,
+            "created_at" -> hero.created_at.toInstant.toString,
             "message" -> "A new hero has born").toJson
         }
       } ~

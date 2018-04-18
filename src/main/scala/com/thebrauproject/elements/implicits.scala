@@ -7,7 +7,6 @@ import java.time.format.DateTimeParseException
 import spray.json.DefaultJsonProtocol._
 import spray.json.{JsString, JsValue, JsonFormat}
 import spray.json._
-
 import com.thebrauproject.util._
 
 
@@ -32,6 +31,7 @@ object implicits {
     }
   }
 
-  implicit val skillFormat = jsonFormat2(Skill)
-  implicit val heroFormat = jsonFormat16(Hero)
+  implicit val skillFormat: RootJsonFormat[Skill] = jsonFormat2(Skill)
+  implicit val heroFormat: RootJsonFormat[Hero] = jsonFormat14(Hero)
+  implicit val profileFormat: RootJsonFormat[Profile] = jsonFormat3(Profile)
 }

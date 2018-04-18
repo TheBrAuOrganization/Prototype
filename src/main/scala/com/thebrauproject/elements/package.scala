@@ -10,13 +10,15 @@ package object elements {
 
   trait Action
 
+  case class Profile(photo: String,
+                     email: String,
+                     phone: String)
+
   case class Hero(hero_id: String,
                   name: String,
                   first_name: String,
                   nickname: String,
-                  profile_photo: String,
-                  profile_email: String,
-                  profile_phone: String,
+                  profile: Profile,
                   created_at: Timestamp,
                   updated_at: Timestamp,
                   subscribed_at: Timestamp,

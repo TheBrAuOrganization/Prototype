@@ -5,6 +5,7 @@ import akka.pattern.ask
 import java.sql._
 import java.time.Instant
 
+import akka.util.Timeout
 import com.thebrauproject.elements.{CreatureKafkaPackage, Hero}
 import com.thebrauproject.kafka.HeroProducer
 import com.thebrauproject.kafka._
@@ -13,10 +14,14 @@ import com.thebrauproject.util._
 
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
+import scala.concurrent._
 import scala.util.{Failure, Success}
+
+import ExecutionContext.Implicits.global
 
 class EventActor extends Actor with Stash with ActorLogging {
 
+  implicit val timeout: Timeout = 5.seconds
   val producer: ActorRef = context.actorOf(HeroProducer.props, "hero-producer")
 
   override def receive: Receive = {

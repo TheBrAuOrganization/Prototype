@@ -4,6 +4,7 @@ import java.util.Properties
 
 import akka.actor.{Actor, ActorLogging, Props}
 import com.thebrauproject.elements.{CreatureKafkaPackage, Hero}
+import com.thebrauproject.operations._
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerConfig, ProducerRecord}
 import spray.json._
 
@@ -30,7 +31,9 @@ class HeroProducer(props: Properties) extends Actor with ActorLogging {
       log.info(s"Hero: ${c.creature.name} with id: ${c.creatureId} is going to be send to Kafka")
       val ack = producer
         .send(new ProducerRecord[String, String]("hero", c.creatureId, c.creature.toJson.compactPrint)).get()
-      sender ! AckObject(ack.topic(), ack.offset(), ack.partition())
+      log.info(s"Data sent to Kafka with Topic: ${ack.topic} " +
+        s"Partiton: ${ack.partition} and Offset: ${ack.partition}")
+      sender ! ProducerSuccess
   }
 
 }

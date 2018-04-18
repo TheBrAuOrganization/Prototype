@@ -1,8 +1,8 @@
-package com.thebrauproject.operations
+package com.thebrauproject
 
-import com.thebrauproject.elements.{Creature, Attribute}
+import com.thebrauproject.elements.{Attribute, Creature}
 
-object OperationsDb {
+package object operations {
   sealed trait State
 
   case object Connected extends State
@@ -36,7 +36,16 @@ object OperationsDb {
   sealed trait RedisOperation
   case class RedisObject(key: String, value: String)
 
-  sealed trait Status
-  case object Success extends Status
-  case object Failed  extends Status
+  sealed trait OperationStatus
+  case object OperationSuccess extends OperationStatus
+  case object OperationFailure  extends OperationStatus
+
+  case object StartConsumer
+
+  case object StartProducer
+
+  sealed trait ProducerStatus
+
+  case object ProducerSuccess extends ProducerStatus
+  case object ProducerFailure extends ProducerStatus
 }

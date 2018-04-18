@@ -16,12 +16,10 @@ import scala.concurrent.duration._
 import spray.json.DefaultJsonProtocol._
 import spray.json._
 import com.thebrauproject.modification.RedisDbActor
-import com.thebrauproject.creation.DatabaseRouter
+import com.thebrauproject.creation.EventRouter
 import com.thebrauproject.elements._
-import com.thebrauproject.operations.OperationsDb._
 import com.thebrauproject.kafka.HeroConsumer
-import com.thebrauproject.operations.OperationsDb.Connect
-import com.thebrauproject.operations.OperationsKafka.StartConsumer
+import com.thebrauproject.operations._
 
 
 object HeroServer extends App {
@@ -32,7 +30,7 @@ object HeroServer extends App {
   implicit val executionContext: ExecutionContextExecutor = system.dispatcher
 
   val redisActor = system.actorOf(Props[RedisDbActor], "redis")
-  val creationDb = system.actorOf(Props[DatabaseRouter], "dbCreator")
+  val creationDb = system.actorOf(Props[EventRouter], "dbCreator")
   val kafkaConsumer = system.actorOf(Props[HeroConsumer], "kafkaHeroConsumer")
 
   kafkaConsumer ! StartConsumer

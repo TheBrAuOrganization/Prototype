@@ -3,7 +3,7 @@ package com.thebrauproject.modification
 import akka.actor.{Actor, ActorLogging, Stash}
 import com.redis.RedisClient
 import com.thebrauproject.elements.Hero
-import com.thebrauproject.operations.OperationsDb._
+import com.thebrauproject.operations._
 import spray.json._
 
 

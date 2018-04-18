@@ -8,7 +8,7 @@ class ActorHero extends Actor {
   import ActorHero._
   override def receive: Receive = {
     case GenerateId(value) => sender ! Base64SHA256(value)
-    case Modification(hero) => sender !  hero.copy(modifiedAt = utc)
+    case Modification(hero) => sender !  hero.copy(updated_at = utc)
   }
 }
 

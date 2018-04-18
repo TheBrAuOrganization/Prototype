@@ -2,9 +2,14 @@ package com.thebrauproject.modification
 
 import akka.actor.{Actor, ActorLogging, Stash}
 import com.redis.RedisClient
-import com.thebrauproject.operations.OperationsDb._
+import com.thebrauproject.elements.Hero
+import com.thebrauproject.operations._
+import spray.json._
+
 
 class RedisDbActor extends Actor with Stash with ActorLogging{
+
+  import com.thebrauproject.elements.implicits._
 
   val connString = "localhost"
   val connPort = 6379
@@ -21,6 +26,15 @@ class RedisDbActor extends Actor with Stash with ActorLogging{
     case r: RedisObject =>
       redisConn.set(r.key, r.value)
       log.info("Data was written to Redis db")
+    case s: String =>
+      try
+        sender ! redisConn.get(s).get.parseJson.convertTo[Hero]
+      catch {
+        case e: Exception =>
+          log.error(s"Unable to find $s in Redis")
+          log.error(e.toString)
+          sender ! None
+      }
   }
 
   def disconnected: Actor.Receive = {

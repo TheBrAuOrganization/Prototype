@@ -4,7 +4,7 @@ import akka.actor.ActorSystem
 import akka.testkit.{ImplicitSender, TestKit}
 import org.scalatest.{BeforeAndAfterAll, FlatSpecLike, MustMatchers}
 
-class DatabaseActorSpec extends TestKit(ActorSystem("test-database"))
+class EventActorSpec extends TestKit(ActorSystem("test-database"))
                     with  ImplicitSender
                     with  FlatSpecLike
                     with  BeforeAndAfterAll

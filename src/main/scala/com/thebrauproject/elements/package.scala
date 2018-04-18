@@ -10,13 +10,24 @@ package object elements {
 
   trait Action
 
-  case class Hero(id: String,
+  case class Profile(photo: String,
+                     email: String,
+                     phone: String)
+
+  case class Hero(hero_id: String,
                   name: String,
-                  createAt: Timestamp,
-                  modifiedAt: Timestamp,
-                  skills: Seq[Skill],
-                  roleId: String,
-                  deleted: Boolean
+                  first_name: String,
+                  nickname: String,
+                  profile: Profile,
+                  created_at: Timestamp,
+                  updated_at: Timestamp,
+                  subscribed_at: Timestamp,
+                  unsubscribed_at: Timestamp,
+                  inactivated_at: Timestamp,
+                  birthday: Timestamp,
+                  gender: String,
+                  bio: String,
+                  utc: String
                  ) extends Creature
 
   case class Role(id: String,

@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-cd postgres
+#cd postgres
 
 docker run --name creation-db-postgres -e POSTGRES_PASSWORD=mysecretpassword -d -p 5432:5432 postgres
 
-cd ../mysql
+#cd ../mysql
 
 #docker run --name=modfy-db-mysql -p 3306:3306 -d mysql/mysql-server
 

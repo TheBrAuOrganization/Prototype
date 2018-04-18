@@ -43,6 +43,7 @@ class DatabaseActor extends Actor with Stash with ActorLogging {
       creature match {
         case c: Hero =>
           try {
+            //TODO: The PG API need to be changed
             stm.executeUpdate(s"INSERT INTO hero VALUES('${c.hero_id}', ${Instant.now.getEpochSecond})")
             producer ! CreatureKafkaPackage[Hero](c.hero_id, c)
           } catch {

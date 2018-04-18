@@ -22,7 +22,11 @@ package object util {
     prefix + "_" + UUID.randomUUID().toString
 
   def parseTimestampString(timestamp: String): Timestamp = {
-    Timestamp.from(Instant.parse(timestamp))
+    try
+      Timestamp.from(Instant.parse(timestamp))
+    catch {
+      case _: Exception => null
+    }
   }
 
 }
